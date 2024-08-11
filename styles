@@ -28,7 +28,7 @@ h1 {
     border: 1px solid #ccc;
 }
 
-.button input {
+#addButton input {
     color: #fff; /* Text color inside button */
     background: skyblue; /* Background color of the button */
     border: none; /* Remove default border */
