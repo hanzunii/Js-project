@@ -10,10 +10,11 @@ function addTextBox() {
     // Set the type of input as text
     newTextBox.type = 'text';
     
-    // Optional: Add some styles or placeholder text
+    // Apply CSS class for consistent styling
+    newTextBox.className = 'custom-input'; // Apply the class defined in your CSS
+    
+    // Optional: Add some placeholder text
     newTextBox.placeholder = 'Enter some text';
-    newTextBox.style.marginTop = '10px';
-    newTextBox.style.display = 'block';
     
     // Append the new text box to the container
     textBoxContainer.appendChild(newTextBox);
