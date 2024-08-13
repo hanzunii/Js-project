@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Display Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0ABAB5;
+            margin: 0; 
+        }
+        .parent {
+            display: flex;
+            justify-content: center; 
+            align-items: center;              
+            margin: 0;
+}
+        .container {
+            padding: 20px;
+            width: 600px;
+            background: #fff;
+            border-radius: 7px;
+}
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            max-width: 600px;
+}
+        .entry {
+            margin-bottom: 10px;
+            padding: 5px 5px 5px 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+        h1 {
+            font-size: 1.8em; /* Adjust the size of the heading */
+            text-align: center;
+}
+        #userInput {
+            width: 400px; /* Specific width for the input box */
+            height: 50px; /* Specific height for the input box */
+            padding: 10px;
+            border-radius: 7px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Ensure padding is included in the width and height calculation */
+}
+        #btn{color: #fff; /* Text color inside button */
+        background: #0ABAB5; /* Background color of the button */
+        border: none; /* Remove default border */
+        border-radius: 7px; /* Rounded corners */
+        width: 125px; /* Set a fixed width for the button */ 
+        height: 35px; /* Set a fixed height for the button */
+        font-size: 1em; /* Font size for the button text */
+        cursor: pointer; /* Show a pointer cursor on hover */
+        text-align: center; /* Center the text inside the button */
+        box-sizing: border-box;
+        margin-left: 2.5rem; 
+}
+        p {
+            font-size: 1.3em; /* Adjust the size of the heading */
+            text-align: center;
+}
+    </style>
+</head>
+<body>
+    <div class="parent">
+    <div class="container">
+    <h1>Life Planner: Daily Routine to Habit!</h1><br>
+    <input type="text" id="userInput">
+    <button onclick="displayInput()" id="btn">Display</button>
+    <div>
+    <p>Your task appear here.</p><br>
+    </div>
+    <div id="output"></div>
+    </div>
+    </div>
+    <script>
+        function displayInput() {
+            // Get the value from the input box
+            const userInput = document.getElementById('userInput').value;
+            
+            // Check if the input is not empty
+            if (userInput.trim() === '') {
+                alert('Please enter something.');
+                return;
+            }
+            
+            // Create a new div for this entry
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'entry';
+            entryDiv.textContent = userInput;
+            
+            // Get the output div
+            const outputDiv = document.getElementById('output');
+            
+            // Append the new entry to the output div
+            outputDiv.appendChild(entryDiv);
+            
+            // Clear the input box
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>
