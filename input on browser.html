@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Display Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            max-width: 600px;
+        }
+        .entry {
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Input Display Example</h1>
+<!-- <label for="userInput">Enter something:</label> -->
+    <input type="text" id="userInput">
+    <button onclick="displayInput()">Display</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        function displayInput() {
+            // Get the value from the input box
+            const userInput = document.getElementById('userInput').value;
+            
+            // Check if the input is not empty
+            if (userInput.trim() === '') {
+                alert('Please enter something.');
+                return;
+            }
+            
+            // Create a new div for this entry
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'entry';
+            entryDiv.textContent = userInput;
+            
+            // Get the output div
+            const outputDiv = document.getElementById('output');
+            
+            // Append the new entry to the output div
+            outputDiv.appendChild(entryDiv);
+            
+            // Clear the input box
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>
