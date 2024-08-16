@@ -29,7 +29,7 @@ button:focus {
 }
 
 .highlight:hover {
-  color: #fff;
+  color: black;
   transition: color .2s ease;
 }
 
@@ -42,7 +42,7 @@ button:focus {
   font-weight: 300;
   text-align: center;
   margin-top: 10px;
-  color: rgba(255, 255, 255, 0.65)
+  color:black;
 }
 
 .input-line:focus {
@@ -57,7 +57,7 @@ button:focus {
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 25px;
-  color: rgba(255, 255, 255, 0.65);
+  color: black;
   -webkit-align-self: flex-end;
   -ms-flex-item-align: end;
   align-self: flex-end;
@@ -74,7 +74,7 @@ button:focus {
 
 .ghost-round:hover {
   background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  color: blue;
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
 }
@@ -83,7 +83,7 @@ button:focus {
   background: none;
   margin-bottom: 10px;
   line-height: 2.4em;
-  color: #fff;
+  color: black;
   font-family: roboto;
   font-weight: 300;
   letter-spacing: 0px;
@@ -134,6 +134,7 @@ button:focus {
 }
 
 .welcome {
+	color: black;
   font-weight: 200;
   margin-top: 75px;
   text-align: center;
@@ -144,6 +145,7 @@ button:focus {
 }
 
 .subtitle {
+	color: black;
   text-align: center;
   line-height: 1em;
   font-weight: 100;
@@ -173,13 +175,13 @@ button:focus {
   box-sizing: border-box;
   height: 560px;
   width: 360px;
-  background: #fff;
+  background: black;
   background: url('https://pexels.imgix.net/photos/27718/pexels-photo-27718.jpg?fit=crop&w=1280&h=823') top left no-repeat;
 }
 
 .overlay {
-  background: -webkit-linear-gradient(#8CA6DB, #B993D6);
-  background: linear-gradient(#8CA6DB, #B993D6);
+  background: -webkit-linear-gradient(#8CA6DB,#0ABAB5, #B993D6);
+  background: linear-gradient(#8CA6DB, #0ABAB5,#B993D6);
   opacity: 0.85;
   filter: alpha(opacity=85);
   height: 560px;
@@ -189,6 +191,7 @@ button:focus {
 }
 
 .bold-line {
+	color: black;
   background: #e7e7e7;
   position: absolute;
   top: 0px;
