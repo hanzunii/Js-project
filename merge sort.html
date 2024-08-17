@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort in JavaScript</title>
+</head>
+<body>
+    <h1>Merge Sort Algorithm</h1>
+    
+    <label for="arrayInput">Enter numbers separated by commas:</label>
+    <input type="text" id="arrayInput" placeholder="e.g., 3,5,2,9,1">
+    <button onclick="sortArray()">Sort</button>
+
+    <h2>Sorted Array:</h2>
+    <p id="sortedArray"></p>
+
+    <script>
+        function merge(left, right) {
+            let result = [];
+            let leftIndex = 0;
+            let rightIndex = 0;
+
+            while (leftIndex < left.length && rightIndex < right.length) {
+                if (left[leftIndex] < right[rightIndex]) {
+                    result.push(left[leftIndex]);
+                    leftIndex++;
+                } else {
+                    result.push(right[rightIndex]);
+                    rightIndex++;
+                }
+            }
+
+            return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+        }
+
+        function mergeSort(array) {
+            if (array.length <= 1) {
+                return array;
+            }
+
+            const middle = Math.floor(array.length / 2);
+            const left = array.slice(0, middle);
+            const right = array.slice(middle);
+
+            return merge(mergeSort(left), mergeSort(right));
+        }
+
+        function sortArray() {
+            const input = document.getElementById('arrayInput').value;
+            const array = input.split(',').map(Number);
+            const sortedArray = mergeSort(array);
+            document.getElementById('sortedArray').textContent = sortedArray.join(', ');
+        }
+    </script>
+</body>
+</html>
