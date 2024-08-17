@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0ABAB5;
+            margin: 0;
+        }
+        .parent {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            margin-top: 5rem;
+            padding: 20px;
+            width: 600px;
+            background: #fff;
+            border-radius: 7px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            max-width: 600px;
+        }
+        .entry {
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+        }
+        .task-checkbox {
+            margin-right: 15px;
+        }
+        .task-buttons {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+        }
+        .task-button {
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .edit-button {
+            background-color: black;
+            color: #fff;
+        }
+        .delete-button {
+            background-color: black;
+            color: #fff;
+        }
+        h1 {
+            font-size: 1.8em;
+            text-align: center;
+        }
+        #userInput {
+            width: 400px;
+            height: 50px;
+            padding: 10px;
+            border-radius: 7px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        #btn {
+            color: #fff;
+            background: #0ABAB5;
+            border: none;
+            border-radius: 7px;
+            width: 125px;
+            height: 35px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+            margin-left: 2.5rem;
+        }
+        .congratulations {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #e0f7fa;
+            color: #00796b;
+            text-align: center;
+            font-size: 1.2em;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="container">
+            <h1>Life Planner: Daily Routine to Habit!</h1>
+            <input type="text" id="userInput">
+            <button onclick="displayInput()" id="btn">Add Task</button>
+            <div id="output"></div>
+            <div id="congratulations" class="congratulations">Good job! You can do your best!</div>
+        </div>
+    </div>
+    <script>
+        const TASK_KEY = 'tasks';
+        const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        let currentEditDiv = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayStoredTasks();
+        });
+
+        document.getElementById('userInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                displayInput();
+            }
+        });
+
+        function displayInput() {
+            const userInput = document.getElementById('userInput').value;
+            
+            if (userInput.trim() === '') {
+                alert('Please enter something.');
+                return;
+            }
+
+            const timestamp = new Date().getTime();
+
+            if (currentEditDiv) {
+                const index = currentEditDiv.dataset.index;
+                updateTask(index, userInput, timestamp);
+                currentEditDiv = null;
+            } else {
+                saveTask(userInput, timestamp);
+                addTaskToDOM(userInput, timestamp, getTasks().length - 1);
+            }
+
+            document.getElementById('userInput').value = '';
+            document.getElementById('congratulations').style.display = 'none';
+        }
+
+        function saveTask(taskText, timestamp) {
+            let tasks = getTasks();
+            tasks.push({ text: taskText, timestamp: timestamp });
+            localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+        }
+
+        function getTasks() {
+            return JSON.parse(localStorage.getItem(TASK_KEY)) || [];
+        }
+
+        function updateTask(index, taskText, timestamp) {
+            let tasks = getTasks();
+            tasks[index] = { text: taskText, timestamp: timestamp };
+            localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+            document.querySelector(`.entry[data-index="${index}"] span`).textContent = taskText;
+        }
+
+        function deleteTaskFromStorage(index) {
+            let tasks = getTasks();
+            tasks.splice(index, 1);
+            localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+        }
+
+        function removeExpiredTasks() {
+            let tasks = getTasks();
+            const currentTime = new Date().getTime();
+            tasks = tasks.filter(task => currentTime - task.timestamp <= EXPIRATION_TIME);
+            localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+        }
+
+        function displayStoredTasks() {
+            removeExpiredTasks();
+            const tasks = getTasks();
+            tasks.forEach((task, index) => {
+                addTaskToDOM(task.text, task.timestamp, index);
+            });
+            checkAllTasksCompleted();
+        }
+
+        function addTaskToDOM(taskText, timestamp, index) {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'entry';
+            entryDiv.dataset.index = index;
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'task-checkbox';
+            checkbox.addEventListener('change', function() {
+                updateTaskStatus(this);
+            });
+
+            const taskTextElement = document.createElement('span');
+            taskTextElement.textContent = taskText;
+            taskTextElement.style.flex = '1';
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.className = 'task-button edit-button';
+            editButton.addEventListener('click', function() {
+                editTask(entryDiv, taskTextElement);
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.className = 'task-button delete-button';
+            deleteButton.addEventListener('click', function() {
+                deleteTask(entryDiv, index);
+            });
+
+            entryDiv.appendChild(checkbox);
+            entryDiv.appendChild(taskTextElement);
+
+            const buttonDiv = document.createElement('div');
+            buttonDiv.className = 'task-buttons';
+            buttonDiv.appendChild(editButton);
+            buttonDiv.appendChild(deleteButton);
+            entryDiv.appendChild(buttonDiv);
+
+            document.getElementById('output').appendChild(entryDiv);
+        }
+
+        function updateTaskStatus(checkbox) {
+            const entryDiv = checkbox.parentElement;
+            const taskText = entryDiv.querySelector('span');
+            if (checkbox.checked) {
+                taskText.style.textDecoration = 'line-through';
+                taskText.style.color = 'gray';
+            } else {
+                taskText.style.textDecoration = 'none';
+                taskText.style.color = 'black';
+            }
+            checkAllTasksCompleted();
+        }
+
+        function checkAllTasksCompleted() {
+            const entries = document.querySelectorAll('.entry');
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+
+            if (entries.length === 0) {
+                document.getElementById('congratulations').style.display = 'none';
+                return;
+            }
+
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+            const congratulationsDiv = document.getElementById('congratulations');
+            congratulationsDiv.style.display = allChecked ? 'block' : 'none';
+        }
+
+        function editTask(entryDiv, taskTextElement) {
+            document.getElementById('userInput').value = taskTextElement.textContent;
+            currentEditDiv = entryDiv;
+        }
+
+        function deleteTask(entryDiv, index) {
+            entryDiv.remove();
+            deleteTaskFromStorage(index);
+            updateTaskIndices();
+            checkAllTasksCompleted();
+
+            // Remove all tasks if the list is empty
+            if (document.querySelectorAll('.entry').length === 0) {
+                localStorage.removeItem(TASK_KEY);
+            }
+        }
+
+        function updateTaskIndices() {
+            const entries = document.querySelectorAll('.entry');
+            entries.forEach((entry, index) => {
+                entry.dataset.index = index;
+            });
+        }
+    </script>
+</body>
+</html>
