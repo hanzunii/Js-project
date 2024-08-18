@@ -50,6 +50,7 @@ button:focus {
 }
 
 .ghost-round {
+  margin-top: 5rem;
   cursor: pointer;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.65);
@@ -139,21 +140,11 @@ button:focus {
   letter-spacing: 0.05rem;
 }
 
-.greet {
-	color: black;
-  font-weight: 150;
-  text-align: center;
-  font-size: 20px;
-  font-size: 1.5rem;
-  letter-spacing: 0px;
-  letter-spacing: 0.05rem;
-}
-
 .subtitle {
 	color: black;
   text-align: center;
-  line-height: 1em;
-  font-weight: 100;
+  line-height: 0.5em;
+  font-weight: 150;
   letter-spacing: 0px;
   letter-spacing: 0.02rem;
 }
