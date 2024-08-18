@@ -13,18 +13,30 @@
     <div class='overlay'></div>
     <div class='content'>
       <div class='welcome'>Hello There!</div>
-		<div class="greet">This is "Life Planner: Daily Routine to Habit"</div>
-      <div class='subtitle'><br>Before using our services you need to create an account.</div>
+      <div class='subtitle'><br><br>This is "Life Planner: Daily Routine to Habit"<br><br></div>
       <div class='input-fields'>
-        <input type='text' placeholder='Username' class='input-line full-width'></input>
-        <input type='email' placeholder='Email' class='input-line full-width'></input>
-        <input type='password' placeholder='Password' class='input-line full-width'></input>
-
+        <form id="loginForm">
+          <input type='text' placeholder='Username' class='input-line full-width' required>
+          <input type='email' placeholder='Email' class='input-line full-width' required>
+          <input type='password' placeholder='Password' class='input-line full-width' id="password" required>
+          <input type="password" placeholder="Confirm Password" class="input-line full-width" id="confirmPassword" required>
+          <a href="Life_planner_Daily_Routine_to_Habit.html"><button type="submit" class='ghost-round full-width'> Log In</button></a>
+        </form>
       </div>
-      <div class='spacing'>or please <span class='highlight'><a href="register.html">Register</a></span> here!</div>
-      <div><button class='ghost-round full-width'><a href="Life_planner_Daily_Routine_to_Habit.html"> Log In</a></button></div>
+      <div class='spacing'><br>or please <span class='highlight'><a href="register.html">Register</a></span> here!</div>
     </div>
   </div>
 </div>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+</script>
 </body>
 </html>
