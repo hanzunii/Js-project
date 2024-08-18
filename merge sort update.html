@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort in JavaScript</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a73e8;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #155bb5;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #444;
+        }
+        #sortedArray {
+            font-size: 16px;
+            color: #00796b;
+            margin-top: 10px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Merge Sort Algorithm</h1>
+        
+        <label for="arrayInput">Enter numbers separated by commas:</label>
+        <input type="text" id="arrayInput" placeholder="e.g., 3,5,2,9,1">
+        <button onclick="sortArray()">Sort</button>
+
+        <h2>Sorted Array:</h2>
+        <p id="sortedArray"></p>
+    </div>
+
+    <script>
+        function merge(left, right) {
+            let result = [];
+            let leftIndex = 0;
+            let rightIndex = 0;
+
+            while (leftIndex < left.length && rightIndex < right.length) {
+                if (left[leftIndex] < right[rightIndex]) {
+                    result.push(left[leftIndex]);
+                    leftIndex++;
+                } else {
+                    result.push(right[rightIndex]);
+                    rightIndex++;
+                }
+            }
+
+            return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+        }
+
+        function mergeSort(array) {
+            if (array.length <= 1) {
+                return array;
+            }
+
+            const middle = Math.floor(array.length / 2);
+            const left = array.slice(0, middle);
+            const right = array.slice(middle);
+
+            return merge(mergeSort(left), mergeSort(right));
+        }
+
+        function sortArray() {
+            const input = document.getElementById('arrayInput').value;
+            const array = input.split(',').map(Number);
+            const sortedArray = mergeSort(array);
+            document.getElementById('sortedArray').textContent = sortedArray.join(', ');
+        }
+    </script>
+</body>
+</html>
